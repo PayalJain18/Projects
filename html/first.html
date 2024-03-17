@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            gap: 5rem;
+        
+        }
+
+        #preview {
+            width: 300px;
+            height: 500px;
+            border: solid 2px black;
+            padding : 5px;
+            position: fixed;
+            right:100px;
+            top:20px;
+        
+        }
+
+        li {
+            cursor: pointer;
+            padding: 5px;
+            background-color: cornflowerblue;
+            border-radius: 8px;
+            margin: 3px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <!-- <form>
+        <fieldset>
+            <legend>LOGIN</legend>
+            <label for="email">ENTER EMAIL</label>
+            <input type="text" id="email">
+            <br>
+            <label for="password">ENTER PASSWORD</label>
+            <input type="text" id="password">
+        <br />
+             <button id="click" onclick="clicked()">click me</button>
+        </fieldset>
+    </form> -->
+        <button id="click" onclick="clicked()">click me</button>
+        <div id="demo">
+            <ul id="ulEl">
+            </ul>
+        </div>
+    </div>
+    <div id="preview">
+
+    </div>
+</body>
+<script>
+    function clicked() {
+        // var email = document.getElementById("email").value;
+        // var password = document.getElementById("password").value;
+        // if(email == 'ipayalljain@gmail.com' && password == '456788')
+        // {
+        //     alert("successfully done");
+        //     event.preventDefault();
+        //     console.log("shi hai sab");
+        // }
+        // else{
+        //     alert("not done");
+        //     event.preventDefault();
+        //     console.log("glt hai bhai");
+        // }
+        event.preventDefault();
+        var demoEl = document.getElementById("demo");
+        fetch('https://jsonplaceholder.typicode.com/todos')
+            .then(response => response.json())
+            .then(rejson => {
+                var ul = document.createElement("ul");
+
+                rejson.map((v) => {
+                    var li = document.createElement("li");
+
+                    li.innerText = v.title;
+
+                    li.addEventListener('click', function () {
+                        //   var a = v.id;
+                        //     console.log("The id is " + a);
+
+                        //     var b = v.userId;
+                        //     console.log("The userId is " + b);
+
+                        //     var c = v.completed;
+                        //     console.log("The completion is " + c);
+
+                        var p = document.getElementById("preview");
+
+                        var idE = document.createElement("p")
+                        idE.innerHTML = "Id: " + v.id
+
+                        var userE = document.createElement("p")
+                        userE.innerHTML = "UserId: " + v.userId
+
+                        var completedE = document.createElement("p")
+                        completedE.innerHTML = "Completed: " + v.completed
+
+                        while (p.firstChild) {
+                            p.removeChild(p.firstChild);
+                        }
+
+                        p.append(idE)
+                        p.append(userE)
+                        p.append(completedE)
+
+                    })
+                    ul.append(li)
+                })
+                demoEl.append(ul)
+
+            })
+
+
+    }
+
+
+</script>
+
+</html>

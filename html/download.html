@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #block {
+            width: 300px;
+            height: 200px;
+            border: solid 2px rgba(0, 0, 0, 0.384);
+            padding: 5px;
+            /* position: fixed; */
+            right: 100px;
+            top: 20px;
+        }
+        #dodo {
+            width: 400px;
+            height: 150px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="block">
+        <h3>put the url here...</h3>
+        <label for="url">ENTER URL</label>
+        <input type="url" placeholder="enter the link bro" id="url">
+        <button id="clickk" onclick="clicked()">play</button>
+        <button id="clickk">download file</button>
+    </div>
+    <iframe width="560" height="315" id="yt-player" src="https://www.youtube.com/embed/hKnl1ICZ5LI"
+        title="YouTube video player" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen></iframe>
+</body>
+<script>
+    function clicked() {
+        // var email = document.getElementById("email").value;
+        // var password = document.getElementById("password").value;
+        // if (email == 'rr' && password == '456788') {
+        //     var div = document.getElementById("block");
+        //     console.log(div.style.display)
+        //     if (div.style.display === "none" || div.style.display === "") {
+        //         div.style.display = "block";
+        //     }
+
+        // }
+        // else {
+        //     alert("not done");
+        //     event.preventDefault();
+        //     console.log("glt hai bhai");
+        // }
+
+        var url = document.getElementById("url").value;
+        url = url.split("=")
+
+        var player = document.getElementById("yt-player");
+        player.src = "https://www.youtube.com/embed/" + url.pop()
+    }
+
+    const fileinput = document.querySelector("input");
+    downloadBtn = document.querySelector("button");
+
+    downloadBtn.addEventListener("click", e =>{
+        e.preventDefault();
+        downloadBtn.innerText ="Downloading File....";
+        fetchFile(fileInput.value);
+    });
+
+    function fetchFile(url)
+{
+    fetch(url).then(res =>res.blob()).then(file =>{
+        let tempUrl = URL.createObjectURL(file);
+        const aTag = document.createElement("a");
+        aTag.href = tempUrl;
+        aTag.download = url.replace(/^.*[\\\/]/,'');
+        document.body.appendChild(aTag);
+        aTag.click();
+        downloadBtn.innerText = "Download File";
+        URL.revokeObjectURL(tempUrl);
+        aTag.remove();
+    }).catch(() =>{
+        alert("fail");
+        downloadBtn.innerText ="Download File";
+        })
+}
+</script>
+
+</html>

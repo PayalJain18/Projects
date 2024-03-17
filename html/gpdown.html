@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Video Player</title>
+</head>
+<body>
+
+  <label for="videoLink">Enter YouTube Video Link:</label>
+  <input type="text" id="videoLink" placeholder="Paste YouTube video link">
+  <button onclick="playVideo()">Play Video</button>
+
+  <div id="player"></div>
+
+  <script>
+    // Load the YouTube IFrame Player API asynchronously
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    let player;
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '360',
+        width: '640',
+        videoId: '', // Initial video ID
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
+
+    function onPlayerReady(event) {
+      // You can do something when the player is ready
+    }
+
+    function onPlayerStateChange(event) {
+      // You can do something when the player state changes
+    }
+
+    function playVideo() {
+      const videoLinkInput = document.getElementById('videoLink');
+      const videoLink = videoLinkInput.value;
+
+      // Extract video ID from the YouTube link
+      const videoId = extractVideoId(videoLink);
+
+      // Load and play the specified video
+      player.loadVideoById(videoId);
+      player.playVideo();
+    }
+
+    function extractVideoId(url) {
+      // Extract video ID from various YouTube URL formats
+      const regex = /[?&]v=([^#\&\?]+)/;
+      const match = url.match(regex);
+
+      return match && match[1] ? match[1] : url;
+    }
+  </script>
+
+</body>
+</html>
